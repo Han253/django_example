@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block extrahead %}
+  <title>Authors</title>
+{% endblock extrahead%}
+
+
+{% block content %}
+<div class="container">
+    <h1>Lista de autores:</h1>
+    {% if autores %}
+        <ul>
+            {% for autor in autores %}
+                <li><b>Nombre:</b>{{ autor.first_name }} {{autor.last_name }} <b>País:</b>{{autor.country}}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock content %}
