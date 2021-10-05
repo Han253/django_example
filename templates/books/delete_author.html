@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block extrahead %}
+  <title>New Author</title>
+{% endblock extrahead%}
+
+
+{% block content %}
+<div class="container">
+    <h1>Eliminar autor</h1>
+    <p>Esta seguro de eliminar al autor: {{ author.first_name}} </p>
+    <form action="" method="post">
+        {% csrf_token %}       
+        <p></p>
+        {{autor.name }}
+        <br>
+        <input type="submit" value="Eliminar" class="btn btn-danger">
+        <a class="btn btn-warning" href="{% url 'authors'%}"> Cancelar</a>
+    </form>  
+{% endblock content %}

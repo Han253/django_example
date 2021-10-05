@@ -7,12 +7,39 @@
 
 {% block content %}
 <div class="container">
-    <h1>Lista de autores:</h1>
+    <h1>Autores</h1>
+    <div>
+        <a class="btn btn-success" href="{% url 'new_authors'%}">Nuevo</a>
+    </div>
+    <br>
+    <h2>Lista de Autores:</h2>
     {% if autores %}
-        <ul>
-            {% for autor in autores %}
-                <li><b>Nombre:</b>{{ autor.first_name }} {{autor.last_name }} <b>País:</b>{{autor.country}}</li>
-            {% endfor %}
+        <table class="table">
+            <thead>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>País</th>
+                <th>Details</th>
+                <th>Actions</th>
+            </thead>
+            <tbody>
+                {% for autor in autores %}
+                <tr>
+                    <td>{{ autor.first_name }}</td>
+                    <td>{{autor.last_name }}</td>
+                    <td>{{autor.country}}</td>
+                    <td><a href="{% url 'detail_author' autor.id %}">ver más</a></td>
+                    <td>
+                        <a class="btn btn-sm btn-warning" href="{% url 'update_author' autor.id %}">editar</a>
+                        <a class="btn btn-sm btn-danger" href="{% url 'delete_author' autor.id %}">eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+            
         </ul>
     {% endif %}
+</div>
 {% endblock content %}

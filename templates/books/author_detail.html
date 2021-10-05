@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block extrahead %}
+  <title>Author Detail</title>
+{% endblock extrahead%}
+
+{% block content %}
+<div class="container">
+    <h1>Vista Detallada Autor</h1>
+    <div>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td><b>Nombres:</b></td>
+                    <td>{{author.first_name}}</td>
+                </tr>
+                <tr>
+                    <td><b>Apellidos:</b></td>
+                    <td>{{author.last_name}}</td>
+                </tr>
+                <tr>
+                    <td><b>Pais:</b></td>
+                    <td>{{author.country}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

@@ -1,6 +1,6 @@
-from django.http.response import HttpResponseRedirect
+from django.http.response import Http404, HttpResponseRedirect
 from django.urls import reverse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from django.template import loader
 
@@ -22,7 +22,16 @@ def authors(request):
     context = {'autores':autores,}
     return HttpResponse(template.render(context,request))
 
-#Crete Autor Page
+#Author detail page
+def detail_author(request,author_id):   
+    try:
+        author = Author.objects.get(pk=author_id)
+    except Author.DoesNotExist:
+        raise Http404("Author doesn't exist.")
+    return render(request,'books/author_detail.html',{'author':author})
+
+
+#Create Autor Page
 def new_author(request):
     #Se ejecuta cuando el usuario envía el formulario con los datos.
     if request.method == 'POST':
@@ -43,6 +52,48 @@ def new_author(request):
         form =  AuthorForm()
     
     return render(request, 'books/create_authors.html', {'form':form})
+
+
+#Update Autor Page
+def update_author(request,author_id):
+
+    #Diccionario con los datos iniciales
+    context = {}
+    #buscar el author en base de datos.
+    author = get_object_or_404(Author, pk = author_id)
+
+    #Pasar el objeto a una instancia del formulario. 
+    form = AuthorForm(request.POST or None, instance=author)
+
+    #Guardar los datos y redirigir a la página de authores.
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect(reverse('authors'))
+    
+    #Agregar el formulario al contexto
+    context["form"] = form
+    
+    return render(request, 'books/update_author.html', {'form':form})
+
+
+#Delete Autor Page
+def delete_author(request,author_id):
+
+    #Diccionario con los datos iniciales
+    context = {}
+    #buscar el author en base de datos.
+    author = get_object_or_404(Author, pk = author_id)
+
+    if request.method == "POST":
+        #eliminar author
+        author.delete()
+        #redireccionar a pagina de autores
+        return HttpResponseRedirect(reverse('authors'))
+    
+    #Agregar el formulario al contexto
+    context["author"] = author
+    
+    return render(request, 'books/delete_author.html', context)
 
 #Index books page
 def index(request):
